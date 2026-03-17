@@ -1,0 +1,433 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;700;900&display=swap');
+
+:root {
+  --giallo-sfondo: #fdbb2d;
+  --marrone-scuro: #5d4037;
+  --colore-barra: rgba(0,0,0,0.75);
+  --giallo-icone: #fdbb2d;
+  --blu-opensea: #2081e2;
+  --nero-x: #000000;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--giallo-sfondo);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif;
+}
+@media (max-width: 768px) {@media (max-width: 768px) {
+  /* --- BLOCCO MINT PIÙ LARGO E COMPATTO --- */
+  div[style*="width: 700px"], 
+  div[style*="width: 600px"],
+  .mint-card {
+    width: 96% !important;        /* Quasi a filo con i bordi del telefono */
+    max-width: 380px !important;  /* Aumentata la larghezza massima */
+    padding: 15px !important;     /* Ridotto lo spazio interno per farlo meno "lungo" */
+    margin: 0 auto !important;
+    border-width: 5px !important; /* Bordo più sottile per guadagnare spazio */
+    min-height: auto !important;  /* Impedisce che si allunghi troppo */
+  }
+
+  /* Rimpicciolisce gli spazi tra i testi per "accorciare" la card */
+  .mint-card > div {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* Titolo MINT NOW più bilanciato */
+  .welcome-text.mint-title, 
+  h1[style*="font-size: 8rem"],
+  h1[style*="font-size: 4rem"] {
+    font-size: 2.8rem !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* Prezzo più piccolo per stare su una riga sola */
+  div[style*="border: 4px solid #ffd000"],
+  .mint-price-box {
+    font-size: 0.9rem !important;
+    padding: 8px !important;
+  }
+
+  /* Bottoni Less/More più vicini al numero */
+  .mint-controls {
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  .btn-quantity {
+    width: 80px !important; /* Più larghi ma meno alti */
+    height: 40px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Numero quantità */
+  .mint-amount-display {
+    font-size: 2rem !important;
+  }
+
+  /* Tasto Connect/Mint più compatto */
+  .mint-card button {
+    padding: 12px !important;
+    font-size: 1rem !important;
+    border-radius: 30px !important;
+  }
+}
+  /* --- SISTEMAZIONE DIAVOLETTI MOBILE (TUTTI PRESENTI) --- */
+  
+  .devil {
+    width: 100px !important; /* Dimensione ridotta per non coprire tutto */
+    z-index: 1; /* Restano dietro al testo */
+  }
+
+  /* Li distribuiamo lungo i bordi verticali in colonna */
+  .pos-1 { top: 100px; left: -20px; transform: rotate(-15deg); }
+  .pos-2 { top: 100px; right: -20px; transform: rotate(15deg); }
+  
+  .pos-3 { top: 30%; left: -30px; transform: rotate(10deg); }
+  .pos-4 { top: 35%; right: -30px; transform: rotate(-10deg); }
+  
+  .pos-7 { top: 55%; left: -25px; transform: rotate(-20deg); } /* Spostato dal centro al bordo sinistro */
+  .pos-8 { top: 60%; right: -25px; transform: rotate(20deg); } /* Spostato dal centro al bordo destro */
+
+  .pos-5 { bottom: 10%; left: -20px; transform: rotate(-5deg); }
+  .pos-6 { bottom: 5%; right: -10px; transform: rotate(5deg); }
+
+  /* Assicuriamoci che il contenuto principale sia sopra i diavoletti */
+  section {
+    z-index: 10;
+    position: relative;
+  }
+}
+
+/* FIRE EFFECT */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('/fire.gif') center/cover no-repeat;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- TOP BAR SCORREVOLE --- */
+#topBar {
+  width: 100%; 
+  height: 30px; 
+  background: rgba(0,0,0,0.85); 
+  color: #fff;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  padding: 0 20px; 
+  position: fixed; 
+  top: 0; 
+  z-index: 1100;
+  font-family: 'Luckiest Guy', cursive; 
+  font-size: 0.9rem; 
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#topBar .lore {
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+#topBar .lore span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollLore 20s linear infinite;
+  line-height: 30px;
+}
+
+@keyframes scrollLore {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.polygonWrapper { 
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+  z-index: 1101; 
+  background: rgba(0,0,0,0.85);
+  padding-left: 10px;
+}
+.polygonWrapper i { color: #8247e5; font-size: 1.1rem; }
+
+/* --- NAVBAR --- */
+nav {
+  width: 100%; 
+  padding: 0 40px; 
+  background: var(--colore-barra);
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  position: fixed; 
+  top: 30px; 
+  z-index: 1000; 
+  height: 70px;
+  backdrop-filter: blur(10px); 
+  border-bottom: 3px solid rgba(255,255,255,0.3);
+}
+
+.nav-logo { height: 55px; filter: drop-shadow(0px 0 8px #fdbb2d); }
+.nav-links { display: flex; gap: 45px; flex-grow: 1; justify-content: center; }
+.nav-links a { color: #fff; text-decoration: none; font-family: 'Luckiest Guy'; font-size: 1.5rem; transition: 0.2s; }
+.nav-links a:hover { transform: scale(1.15); color: var(--giallo-icone); }
+
+.polygon-icon svg { display: block; width: 36px; height: 36px; }
+
+/* --- DIAVOLETTI DECORATIVI --- */
+.devil { position: fixed; width: 250px; z-index: 1; pointer-events: none; filter: drop-shadow(0 0 12px #ff0000); }
+.pos-1 { top: 110px; left: 2%; transform: rotate(-10deg); }
+.pos-2 { top: 110px; right: 2%; transform: rotate(10deg); }
+.pos-3 { top: 40%; left: 1%; transform: rotate(15deg); }
+.pos-4 { top: 30%; right: 1%; transform: rotate(-15deg); }
+.pos-5 { bottom: -15%; left: 2%; transform: rotate(-5deg); }
+.pos-6 { bottom: 2%; right: 2%; transform: rotate(5deg); }
+.pos-7 { bottom: 5%; left: 25%; transform: rotate(10deg); }
+.pos-8 { bottom: 5%; right: 25%; transform: rotate(-10deg); }
+
+/* --- SEZIONI --- */
+section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px 40px; position: relative; z-index: 10; text-align: center; }
+
+/* MODIFICA: Spazio Welcome accorciato */
+.welcome-text { 
+  font-family: 'Luckiest Guy'; 
+  font-size: 8rem; 
+  color: #fff; 
+  text-shadow: 6px 6px 0 #000; 
+  animation: glow 2.5s infinite alternate;
+  line-height: 0.8; /* Stringe l'altezza della riga */
+  margin-bottom: 0;
+}
+
+@keyframes glow { from { filter: drop-shadow(0 0 5px #fff); } to { filter: drop-shadow(0 0 15px #ffe47a); } }
+
+/* MODIFICA: Spazio Brand accorciato */
+.brand-text { 
+  font-family: 'Montserrat'; 
+  font-weight: 900; 
+  font-size: 2.5rem; 
+  color: var(--marrone-scuro); 
+  text-transform: uppercase; 
+  margin-top: -20px; /* Attacca la scritta al Welcome */
+  margin-bottom: 5px;
+}
+
+/* MODIFICA: Spazio Story Container accorciato */
+.story-container { 
+  background: rgba(0,0,0,0.85); 
+  padding: 40px; 
+  border-radius: 60px; 
+  border: 6px solid #fff; 
+  max-width: 900px; 
+  margin: 10px 0; /* Ridotto per stare vicino alle scritte sopra */
+}
+
+.story-text { font-family: 'Luckiest Guy'; color: #fff; font-size: 1.6rem; line-height: 1.5; text-shadow: 2px 2px 0px #000; }
+
+.attributes-title { font-family: 'Luckiest Guy'; font-size: 4rem; color: #fff; text-shadow: 4px 4px 0 #000; animation: glow 2.2s infinite alternate; }
+
+.central-image { max-width: 450px; border: 8px solid #fff; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 20px; }
+
+.slider-container { width: 100%; max-width: 1100px; }
+.slider-title { font-family: 'Luckiest Guy'; color: #fff; font-size: 2.8rem; text-shadow: 4px 4px 0 #000; margin-bottom: 25px; }
+
+/* --- MODIFICA NFT SLIDER: Pausa al passaggio del mouse --- */
+.nft-slider { 
+  width: 100%; 
+  overflow: hidden; 
+  padding: 25px; 
+  background: rgba(0,0,0,0.5); 
+  border-radius: 40px; 
+  border: 6px solid #fff; 
+}
+
+.nft-track { 
+  display: flex; 
+  gap: 20px; 
+  animation: slide 16s linear infinite; 
+}
+
+/* Blocca l'animazione al passaggio del mouse */
+.nft-slider:hover .nft-track {
+  animation-play-state: paused;
+}
+
+@keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Ingrandisce l'immagine specifica al passaggio del mouse */
+.nft-track img { 
+  width: 240px; 
+  height: 240px; 
+  border-radius: 25px; 
+  border: 5px solid #fff; 
+  transition: transform 0.3s ease-in-out;
+}
+
+.nft-track img:hover {
+  transform: scale(1.1); /* Ingrandisce l'NFT */
+  z-index: 100;
+}
+
+.btn-social-wrapper { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 30px; /* Aumentato da 15px a 30px per distanziarli di più */
+  margin-top: 30px; 
+  align-items: center; 
+}
+
+.btn-social { text-decoration: none; font-family: 'Luckiest Guy'; font-size: 1.8rem; padding: 12px 0; border-radius: 50px; border: 5px solid #fff; display: flex; align-items: center; justify-content: center; gap: 20px; width: 380px; color: white; transition: 0.2s; }
+.btn-social .btn-icon { height: 24px; width: 24px; margin-right: 10px; }
+
+.opensea-btn { background-color: var(--blu-opensea); }
+.opensea-btn:hover { transform: scale(1.05); }
+
+.x-btn { background-color: var(--nero-x); }
+.x-btn:hover { transform: scale(1.05); }
+
+.lore-extra { font-family: 'Luckiest Guy'; font-size: 3.5rem; color: #fff; text-shadow: 4px 4px 0 #000; margin: 40px 0; text-transform: uppercase; }
+/* --- FOOTER STYLE --- */
+.main-footer {
+  background-color: #000000; /* Nero come nell'esempio */
+  color: #ffffff;
+  padding: 60px 5% 20px;
+  margin-top: 50px;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  z-index: 100;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.footer-logo-text {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.footer-sub {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* BARRA CONTRATTO CENTRALE */
+.contract-box {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px 25px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contract-tag {
+  color: #fdbb2d; /* Giallo come il tuo brand */
+  font-weight: 900;
+  font-size: 0.75rem;
+}
+
+.contract-addr {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.copy-icon {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+.copy-icon:hover { opacity: 1; }
+
+/* NAVIGAZIONE FOOTER */
+.footer-nav-simple {
+  display: flex;
+  gap: 25px;
+}
+
+.footer-nav-simple a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.footer-nav-simple a:hover { 
+  opacity: 1; 
+  color: #fdbb2d; 
+}
+
+/* LINEA FINALE IN BASSO */
+.footer-bottom-line {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+/* --- COMPATTAZIONE MINT MOBILE --- */
+.mint-section-container {
+  padding-top: 60px !important; /* Porta tutto più in alto */
+  padding-bottom: 20px !important;
+}
+
+.mint-card {
+  width: 95% !important; /* Più stretta sui lati */
+  max-width: 340px !important; 
+  padding: 20px !important; /* Meno spazio vuoto interno */
+  margin: 0 auto !important;
+  border-radius: 25px !important;
+}
+
+/* Rimpicciolisce l'unica scritta MINT NOW sopra la card */
+.welcome-text.mint-title {
+  font-size: 2.5rem !important; 
+  margin-bottom: 10px !important;
+}
+
+/* Rende i controlli (Less/More) più vicini */
+.mint-controls {
+  margin: 10px 0 !important;
+  gap: 10px !important;
+}
+
+.btn-quantity {
+  width: 70px !important;
+  height: 45px !important;
+  font-size: 1rem !important;
+}
+
+.mint-amount-display {
+  font-size: 1.8rem !important;
+}
